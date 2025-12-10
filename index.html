@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      /* Copy protection – text select off */
+      * {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+      }
+
+      /* Smooth UI basics */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      a,
+      button,
+      .btn {
+        transition: background-color 0.3s ease, color 0.3s ease,
+          transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      a:hover,
+      button:hover,
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Footer style */
+      .site-footer {
+        margin-top: 40px;
+        background: linear-gradient(135deg, #111827, #1f2933);
+        color: #f9fafb;
+        padding: 20px 10px;
+      }
+
+      .site-footer .footer-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .site-footer p {
+        margin: 2px 0;
+        opacity: 0.85;
+      }
+    </style>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DELETE HEX</title>
+    <link
+      rel="icon"
+      href="https://raw.githubusercontent.com/fafoysal/deletehhex/main/deletehex.ico"
+      type="image/x-icon"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        height: 100%;
+      }
+
+      body {
+        height: 100%;
+        width: 100%;
+        background-color: rgba(25, 25, 25, 1);
+        overflow: hidden;
+        font-family: serif;
+      }
+
+      .snow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        pointer-events: none;
+        background: none;
+        background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/191814/flake1.png"),
+          url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/191814/flake2.png"),
+          url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/191814/flake3.png");
+        background-repeat: repeat;
+        background-size: 600px 600px;
+        animation: snow 10s linear infinite;
+      }
+
+      @keyframes snow {
+        0% {
+          background-position: 0px 0px, 0px 0px, 0px 0px;
+        }
+        50% {
+          background-position: 500px 500px, 100px 200px, -100px 150px;
+        }
+        100% {
+          background-position: 500px 1000px, 200px 400px, -100px 300px;
+        }
+      }
+
+      body {
+        background: radial-gradient(
+            circle at 50% 120%,
+            rgba(255, 255, 255, 0.05) 0%,
+            rgba(255, 255, 255, 0) 60%
+          ),
+          radial-gradient(
+            circle at 80% 0%,
+            rgba(0, 140, 255, 0.25) 0%,
+            rgba(0, 0, 0, 0) 50%
+          ),
+          radial-gradient(
+            circle at 20% -10%,
+            rgba(255, 200, 255, 0.25) 0%,
+            rgba(0, 0, 0, 0) 45%
+          ),
+          linear-gradient(
+            to bottom,
+            #0a0f1e 0%,
+            #0b1224 30%,
+            #08101f 60%,
+            #050b16 100%
+          );
+        background-attachment: fixed;
+        color: white;
+        overflow-x: hidden;
+      }
+
+      #blackhole {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        transition: opacity 600ms ease-out;
+        z-index: 100;
+      }
+
+      #blackhole.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .centerHover {
+        width: 255px;
+        height: 255px;
+        background-color: transparent;
+        border-radius: 50%;
+        position: absolute;
+        z-index: 2;
+        cursor: pointer;
+        line-height: 255px;
+        text-align: center;
+        transition: all 500ms ease-out;
+      }
+
+      .centerHover.open {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .centerHover span {
+        color: #666;
+        font-family: serif;
+        font-size: 18px;
+        position: relative;
+        transition: all 500ms ease-out;
+        display: inline-block;
+      }
+
+      .centerHover:hover span {
+        color: #ddd;
+      }
+
+      .centerHover span:before {
+        content: "";
+        display: inline-block;
+        height: 1px;
+        width: 16px;
+        margin-right: 12px;
+        margin-bottom: 4px;
+        background-color: #666;
+        transition: all 500ms ease-out;
+      }
+
+      .centerHover:hover span:before {
+        background-color: #ddd;
+      }
+
+      .centerHover span:after {
+        content: "";
+        display: inline-block;
+        height: 1px;
+        width: 16px;
+        margin-left: 12px;
+        margin-bottom: 4px;
+        background-color: #666;
+        transition: all 500ms ease-out;
+      }
+
+      .centerHover:hover span:after {
+        background-color: #ddd;
+      }
+
+      .social-links {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+        display: flex;
+        gap: 30px;
+        animation: fadeInUp 1000ms ease-out;
+      }
+
+      .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(11, 11, 11, 0.2);
+        border: 2px solid rgba(246, 250, 250, 0.5);
+        color: #030333;
+        font-size: 24px;
+        transition: all 300ms ease;
+        text-decoration: none;
+      }
+
+      .social-links a:hover {
+        background: rgba(50, 184, 198, 0.4);
+        border-color: rgba(50, 184, 198, 1);
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px rgba(50, 184, 198, 0.6);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateX(-50%) translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+      }
+
+      /* PANEL PAGE STYLES */
+      #panelPage {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        z-index: 1000;
+        overflow-y: auto;
+        opacity: 0;
+        transition: opacity 600ms ease-out;
+      }
+
+      #panelPage.visible {
+        display: block;
+        opacity: 1;
+      }
+
+      .panel-content {
+        position: relative;
+        width: 100%;
+        min-height: 100%;
+        padding: 40px 20px;
+      }
+
+      .panel-header {
+        text-align: center;
+        margin-bottom: 50px;
+        animation: slideDown 800ms ease-out;
+      }
+
+      .panel-header h1 {
+        font-size: 48px;
+        color: #fff;
+        margin-bottom: 10px;
+        text-shadow: 0 0 20px rgba(50, 184, 198, 0.8);
+      }
+
+      .panel-header p {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .plans-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        max-width: 1400px;
+        margin: 0 auto 50px;
+      }
+
+      .plan-card {
+        background: rgba(50, 184, 198, 0.1);
+        border: 2px solid rgba(50, 184, 198, 0.5);
+        border-radius: 15px;
+        padding: 30px;
+        transition: all 300ms ease;
+        position: relative;
+        animation: slideUp 800ms ease-out;
+        cursor: pointer;
+      }
+
+      .plan-card:hover {
+        transform: translateY(-10px);
+        background: rgba(50, 184, 198, 0.2);
+        border-color: rgba(50, 184, 198, 0.9);
+        box-shadow: 0 10px 30px rgba(50, 184, 198, 0.3);
+      }
+
+      .plan-card.popular {
+        border-color: rgba(50, 184, 198, 1);
+        background: rgba(50, 184, 198, 0.15);
+        transform: scale(1.05);
+      }
+
+      .plan-card.popular::before {
+        content: "POPULAR";
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background: #32b8c6;
+        color: #1a1a2e;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      .plan-name {
+        font-size: 24px;
+        color: #32b8c6;
+        margin-bottom: 15px;
+        font-weight: bold;
+      }
+
+      .plan-desc {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 20px;
+      }
+
+      .plan-price {
+        font-size: 28px;
+        color: #fff;
+        margin-bottom: 8px;
+      }
+
+      .plan-price-sub {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 25px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid rgba(50, 184, 198, 0.3);
+      }
+
+      .plan-features {
+        list-style: none;
+        margin-bottom: 30px;
+      }
+
+      .plan-features li {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 12px;
+        padding-left: 25px;
+        position: relative;
+      }
+
+      .plan-features li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #32b8c6;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .choose-btn {
+        width: 100%;
+        padding: 12px;
+        background: rgba(50, 184, 198, 0.8);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 300ms;
+        letter-spacing: 1px;
+      }
+
+      .choose-btn:hover {
+        background: rgba(50, 184, 198, 1);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(50, 184, 198, 0.4);
+      }
+
+      /* DETAIL PAGE STYLES */
+      #detailPage {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        z-index: 1000;
+        overflow-y: auto;
+        opacity: 0;
+        transition: opacity 600ms ease-out;
+        padding: 20px;
+      }
+
+      #detailPage.visible {
+        display: block;
+        opacity: 1;
+      }
+
+      .detail-content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        animation: fadeInUp 800ms ease-out;
+      }
+
+      .detail-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 50px;
+      }
+
+      .detail-back-btn {
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 300ms;
+      }
+
+      .detail-back-btn:hover {
+        background: rgba(50, 184, 198, 0.3);
+        border-color: rgba(50, 184, 198, 0.8);
+        transform: translateX(-5px);
+      }
+
+      .detail-title {
+        color: #fff;
+        margin: 0;
+      }
+
+      .detail-title h1 {
+        font-size: 42px;
+        text-shadow: 0 0 20px rgba(50, 184, 198, 0.8);
+        margin-bottom: 10px;
+      }
+
+      .detail-price {
+        font-size: 28px;
+        color: #32b8c6;
+        margin-bottom: 20px;
+      }
+
+      .detail-description {
+        background: rgba(50, 184, 198, 0.1);
+        border-left: 4px solid #32b8c6;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 40px;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.8;
+      }
+
+      .detail-features {
+        margin-bottom: 40px;
+      }
+
+      .detail-features h2 {
+        font-size: 28px;
+        color: #32b8c6;
+        margin-bottom: 25px;
+        border-bottom: 2px solid rgba(50, 184, 198, 0.3);
+        padding-bottom: 15px;
+      }
+
+      .features-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .feature-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(50, 184, 198, 0.3);
+        padding: 20px;
+        border-radius: 10px;
+        transition: all 300ms;
+      }
+
+      .feature-item:hover {
+        background: rgba(50, 184, 198, 0.1);
+        border-color: rgba(50, 184, 198, 0.6);
+        transform: translateY(-5px);
+      }
+
+      .feature-item h3 {
+        color: #32b8c6;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+
+      .feature-item p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        margin: 0;
+      }
+
+      .detail-buy-btn {
+        width: 100%;
+        padding: 15px;
+        background: #32b8c6;
+        color: #1a1a2e;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 300ms;
+        letter-spacing: 1px;
+        margin-top: 30px;
+      }
+
+      .detail-buy-btn:hover {
+        background: #50c9d8;
+        transform: scale(1.02);
+        box-shadow: 0 10px 30px rgba(50, 184, 198, 0.4);
+      }
+
+      /* PORTAL PAGE STYLES */
+      #portalPage {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        z-index: 1000;
+        overflow-y: auto;
+        opacity: 0;
+        transition: opacity 600ms ease-out;
+      }
+
+      #portalPage.visible {
+        display: block;
+        opacity: 1;
+      }
+
+      .portal-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      #backBtn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 300ms;
+      }
+
+      #backBtn:hover {
+        background: rgba(50, 184, 198, 0.3);
+        border-color: rgba(50, 184, 198, 0.8);
+        transform: translateX(-5px);
+      }
+
+      .portal-text {
+        text-align: center;
+        color: #fff;
+        max-width: 800px;
+        animation: fadeInUp 800ms ease-out;
+      }
+
+      .portal-text h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(50, 184, 198, 0.8);
+      }
+
+      .portal-text p {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.8;
+        margin-bottom: 15px;
+      }
+
+      .portal-text .highlight {
+        color: #32b8c6;
+      }
+
+      .contact-methods {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 40px;
+        flex-wrap: wrap;
+      }
+
+      .contact-btn {
+        padding: 15px 30px;
+        background: rgba(50, 184, 198, 0.8);
+        color: #fff;
+        border: 2px solid rgba(50, 184, 198, 1);
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 300ms;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        letter-spacing: 1px;
+        text-decoration: none;
+      }
+
+      .contact-btn:hover {
+        background: rgba(50, 184, 198, 1);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(50, 184, 198, 0.4);
+      }
+
+      .contact-btn i {
+        font-size: 20px;
+      }
+
+      /* PAYMENT PAGE STYLES */
+      #paymentPage {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        z-index: 1000;
+        overflow-y: auto;
+        opacity: 0;
+        transition: opacity 600ms ease-out;
+        padding: 20px;
+      }
+
+      #paymentPage.visible {
+        display: block;
+        opacity: 1;
+      }
+
+      .payment-content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        animation: fadeInUp 800ms ease-out;
+      }
+
+      .payment-header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .payment-header h1 {
+        font-size: 42px;
+        color: #fff;
+        margin-bottom: 10px;
+        text-shadow: 0 0 20px rgba(50, 184, 198, 0.8);
+      }
+
+      .payment-header p {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .payment-back-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 300ms;
+      }
+
+      .payment-back-btn:hover {
+        background: rgba(50, 184, 198, 0.3);
+        border-color: rgba(50, 184, 198, 0.8);
+        transform: translateX(-5px);
+      }
+
+      .payment-methods-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+
+      .payment-method {
+        background: rgba(50, 184, 198, 0.1);
+        border: 2px solid rgba(50, 184, 198, 0.5);
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 300ms ease;
+        animation: slideUp 800ms ease-out;
+      }
+
+      .payment-method:hover {
+        transform: translateY(-10px);
+        background: rgba(50, 184, 198, 0.2);
+        border-color: rgba(50, 184, 198, 0.9);
+        box-shadow: 0 10px 30px rgba(50, 184, 198, 0.3);
+      }
+
+      .payment-method i {
+        font-size: 48px;
+        color: #32b8c6;
+        margin-bottom: 15px;
+      }
+
+      .payment-method h3 {
+        color: #fff;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .payment-method p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        margin: 0;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .panel-header h1 {
+          font-size: 32px;
+        }
+
+        .plans-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .plan-card.popular {
+          transform: scale(1);
+        }
+
+        .detail-content {
+          padding: 20px;
+        }
+
+        .detail-title h1 {
+          font-size: 28px;
+        }
+
+        .features-list {
+          grid-template-columns: 1fr;
+        }
+
+        .portal-text h1 {
+          font-size: 32px;
+        }
+
+        .payment-methods-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .payment-header h1 {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Music (GitHub Raw Link) -->
+    <audio id="backgroundMusic">
+      <source
+        src="https://raw.githubusercontent.com/fafoysal/deletehhex/main/delete%20hex.wav"
+        type="audio/wav"
+      />
+    </audio>
+
+    <!-- HOME PAGE -->
+    <div class="snow"></div>
+
+    <div id="blackhole">
+      <div class="centerHover"><span>ENTER</span></div>
+      <div class="social-links">
+        <a href="https://discord.gg/6MZ3WFwUT3" target="_blank" title="Discord">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a
+          href="https://www.youtube.com/@delete_hex"
+          target="_blank"
+          title="YouTube"
+        >
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a
+          href="https://www.facebook.com/samp.foysal"
+          target="_blank"
+          title="Facebook"
+        >
+          <i class="fab fa-facebook"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- DETAIL PAGE -->
+    <div id="detailPage">
+      <div class="detail-content">
+        <button class="detail-back-btn" id="detailBackBtn">
+          ← BACK TO PLANS
+        </button>
+        <div id="detailPlaceholder"></div>
+      </div>
+    </div>
+
+    <!-- PLANS PAGE -->
+    <div id="panelPage">
+      <div class="panel-content">
+        <div class="panel-header">
+          <h1>🎮 DELETE HEX PANELS 🎮</h1>
+          <p>Choose Your Perfect Plan - 100% ANTIBAN</p>
+        </div>
+        <div class="plans-grid" id="plansGrid"></div>
+      </div>
+    </div>
+
+    <!-- DETAIL PAGE -->
+    <div id="detailPage">
+      <div class="detail-content">
+        <button class="detail-back-btn" id="detailBackBtn">
+          ← BACK TO PLANS
+        </button>
+        <div id="detailPlaceholder"></div>
+      </div>
+    </div>
+
+    <!-- CONTACT/PORTAL PAGE -->
+
+    <div id="portalPage">
+      <div class="portal-content">
+        <button id="backBtn" class="payment-back-btn">← BACK</button>
+        <div class="portal-text">
+          <h1>📞 CONTACT US</h1>
+          <p>Choose Your Preferred Contact Method</p>
+          <div class="contact-methods">
+            <button class="contact-btn" onclick="goToPayment()">
+              <i class="fas fa-money-bill"></i> PAYMENT
+            </button>
+            <a
+              href="https://wa.me/01966223648"
+              target="_blank"
+              class="contact-btn"
+            >
+              <i class="fab fa-whatsapp"></i> WHATSAPP
+            </a>
+            <a
+              href="https://discord.gg/6MZ3WFwUT3"
+              target="_blank"
+              class="contact-btn"
+            >
+              <i class="fab fa-discord"></i> DISCORD
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT PAGE -->
+
+    <div id="paymentPage">
+      <button class="payment-back-btn" id="paymentBackBtn">← BACK</button>
+      <div class="payment-content">
+        <div class="payment-header">
+          <h1>💳 SELECT PAYMENT METHOD</h1>
+          <p id="paymentPlanInfo">
+            Plan: <span id="paymentPlanName"></span> -
+            <span id="paymentPlanPrice"></span>
+          </p>
+        </div>
+        <div class="payment-methods-grid" id="paymentMethodsGrid"></div>
+      </div>
+    </div>
+
+    <script>
+      // PLANS DATA
+      const plansData = {
+        aimbot: {
+          name: "Aimbot Panel",
+          subtitle: "Only For Headshot",
+          price: "$10 / 1000tk",
+          updatePrice: "FREE - 1$",
+          popular: false,
+          shortFeatures: [
+            "100% Head Rate",
+            "Enemy Location",
+            "Key Bind System",
+          ],
+          description:
+            "The ultimate aimbot panel with high accuracy headshot capabilities. Perfect for competitive players who want precise targeting.",
+          fullFeatures: [
+            {
+              title: "Headshot Lock",
+              desc: "85%-90% accurate head lock system",
+            },
+            {
+              title: "Enemy Location",
+              desc: "Real-time enemy position tracking",
+            },
+            { title: "Key Bind System", desc: "Customizable hotkey controls" },
+            {
+              title: "Anti-Ban Protection",
+              desc: "Advanced protection system",
+            },
+            { title: "Smooth Aiming", desc: "Natural movement animation" },
+            { title: "24/7 Support", desc: "Dedicated customer support" },
+          ],
+        },
+        premium: {
+          name: "Premium Panel",
+          subtitle: "For All Players",
+          price: "$25 / 2500tk",
+          updatePrice: "FREE - 1$",
+          popular: true,
+          shortFeatures: [
+            "Headshot",
+            "Sniper Function",
+            "Wall / Speed / Fly / Camera",
+          ],
+          description:
+            "The most popular and comprehensive panel with all essential features. Ideal for players who want maximum control and versatility.",
+          fullFeatures: [
+            {
+              title: "Headshot Function",
+              desc: "Precision headshot targeting",
+            },
+            { title: "Sniper Zoom", desc: "Advanced sniper scope features" },
+            { title: "Wall Hacks", desc: "See through walls and obstacles" },
+            { title: "Speed Boost", desc: "Increase movement speed" },
+            { title: "Fly Mode", desc: "Free movement in any direction" },
+            { title: "Camera Control", desc: "Full 360° camera manipulation" },
+            { title: "Night Vision", desc: "Enhanced visibility in darkness" },
+            { title: "Premium Support", desc: "Priority customer support" },
+          ],
+        },
+        sniper: {
+          name: "Sniper Panel",
+          subtitle: "Only Sniper Function",
+          price: "$8 / 800tk",
+          updatePrice: "FREE - 1$",
+          popular: false,
+          shortFeatures: ["Sniper Scope", "Sniper Switch", "LocationMenu"],
+          description:
+            "Specialized sniper panel designed exclusively for long-range combat. Perfect for players who prefer sniper rifles.",
+          fullFeatures: [
+            { title: "Sniper Scope", desc: "Advanced scope zoom controls" },
+            { title: "Sniper Switch", desc: "Rapid weapon switching system" },
+            { title: "Location Menu", desc: "Real-time location tracking" },
+            {
+              title: "Bullet Trajectory",
+              desc: "Predictive bullet path display",
+            },
+            { title: "Wind Adjustment", desc: "Automatic wind compensation" },
+            { title: "One-Shot Kill", desc: "Enhanced damage calculation" },
+            { title: "Scope Customization", desc: "Custom scope overlays" },
+            { title: "Anti-Recoil", desc: "Perfect recoil control" },
+          ],
+        },
+        bypass: {
+          name: "Bypass Panel",
+          subtitle: "Emulator Hide",
+          price: "$10 / 1000tk",
+          updatePrice: "FREE - 1$",
+          popular: false,
+          shortFeatures: [
+            "Emulator Bypass",
+            "Pc To Mobile Convert",
+            "Remove Hacker",
+          ],
+          description:
+            "Advanced bypass panel to hide emulator usage and bypass anti-cheat systems. Essential for PC players.",
+          fullFeatures: [
+            {
+              title: "Emulator Bypass",
+              desc: "Complete emulator detection bypass",
+            },
+            { title: "PC to Mobile", desc: "Convert PC client to mobile" },
+            { title: "Remove Hacker Tag", desc: "Hide cheat detections" },
+            { title: "Anti-Cheat Bypass", desc: "Advanced protection layers" },
+            { title: "Device Spoof", desc: "Change device fingerprint" },
+            { title: "Memory Cleaner", desc: "Clean suspicious memory traces" },
+            { title: "Process Hider", desc: "Hide third-party processes" },
+            { title: "Signature Bypass", desc: "Bypass file signatures" },
+          ],
+        },
+        streamer: {
+          name: "Streamer Panel",
+          subtitle: "For Tournament Player",
+          price: "$35 / 3500tk",
+          updatePrice: "FREE - 5$",
+          popular: false,
+          shortFeatures: [
+            "Control From Mobile",
+            "80% Head Rate",
+            "Streamer Esp / Hide from pc",
+          ],
+          description:
+            "Premium panel designed for professional streamers and tournament players. Control from your mobile device.",
+          fullFeatures: [
+            {
+              title: "Mobile Control",
+              desc: "Full remote control from mobile",
+            },
+            { title: "80% Head Rate", desc: "Ultra-high accuracy headshots" },
+            {
+              title: "Streamer ESP",
+              desc: "Advanced esp features for streams",
+            },
+            { title: "Hide from PC", desc: "Undetectable to PC spectators" },
+            {
+              title: "Tournament Mode",
+              desc: "Designed for official tournaments",
+            },
+            { title: "Low FPS Impact", desc: "Minimal performance loss" },
+            { title: "Cloud Sync", desc: "Sync settings across devices" },
+            { title: "VIP Support", desc: "24/7 dedicated VIP support" },
+          ],
+        },
+        bundle: {
+          name: "Aimbot + Bypass",
+          subtitle: "Emulator Hide + Headshot",
+          price: "$16 / 1600tk",
+          updatePrice: "FREE - 1$",
+          popular: false,
+          shortFeatures: [
+            "Headshot + location",
+            "Pc To Mobile Convert",
+            "Remove Hacker",
+          ],
+          description:
+            "Bundle package combining aimbot and bypass features at a special price. Best value for money.",
+          fullFeatures: [
+            {
+              title: "Headshot + Location",
+              desc: "Accurate targeting with location",
+            },
+            { title: "PC to Mobile", desc: "Convert PC gameplay to mobile" },
+            { title: "Remove Hacker Tag", desc: "Hide cheat status" },
+            { title: "Bypass Protection", desc: "Full anti-cheat bypass" },
+            {
+              title: "Dual Features",
+              desc: "Access both panels simultaneously",
+            },
+            { title: "Bundle Discount", desc: "Save 20% with bundle price" },
+            { title: "Priority Updates", desc: "Get updates first" },
+            { title: "Lifetime Access", desc: "One-time payment forever" },
+          ],
+        },
+      };
+
+      const paymentMethods = [
+        {
+          id: "bkash",
+          name: "bKash",
+          icon: "fas fa-mobile-alt",
+          info: "01966223648",
+        },
+        {
+          id: "nagad",
+          name: "Nagad",
+          icon: "fas fa-wallet",
+          info: "01966223648",
+        },
+
+        {
+          id: "crypto",
+          name: "Cryptocurrency",
+          icon: "fab fa-bitcoin",
+          info: "Bitcoin Address",
+        },
+        {
+          id: "bank",
+          name: "Bank Transfer",
+          icon: "fas fa-university",
+          info: "Bank Account",
+        },
+      ];
+
+      // GLOBAL VARIABLES
+      let selectedPlanKey = null;
+      const blackholeEl = document.getElementById("blackhole");
+      const panelPageEl = document.getElementById("panelPage");
+      const detailPageEl = document.getElementById("detailPage");
+      const portalPageEl = document.getElementById("portalPage");
+      const paymentPageEl = document.getElementById("paymentPage");
+      const centerHover = document.querySelector(".centerHover");
+
+      // ENTER BUTTON - Go to Plans
+      centerHover.addEventListener("click", function () {
+        var bgMusic = document.getElementById("backgroundMusic");
+        if (bgMusic) {
+          bgMusic.volume = 0.5; // সাউন্ড ৫০% রাখা হয়েছে
+          bgMusic
+            .play()
+            .catch((error) => console.log("Audio play failed:", error));
+        }
+
+        centerHover.classList.add("open");
+        setTimeout(() => {
+          blackholeEl.classList.add("hidden");
+          panelPageEl.classList.add("visible");
+        }, 500);
+      });
+
+      centerHover.addEventListener("mouseover", function () {
+        centerHover.classList.add("hover");
+      });
+
+      centerHover.addEventListener("mouseout", function () {
+        centerHover.classList.remove("hover");
+      });
+
+      // RENDER PLANS
+      function renderPlans() {
+        const plansGrid = document.getElementById("plansGrid");
+        plansGrid.innerHTML = "";
+
+        Object.keys(plansData).forEach((key) => {
+          const plan = plansData[key];
+          const planCard = document.createElement("div");
+          planCard.className = `plan-card ${plan.popular ? "popular" : ""}`;
+          planCard.innerHTML = `
+                    <div class="plan-name">${plan.name}</div>
+                    <div class="plan-desc">${plan.subtitle}</div>
+                    <div class="plan-price">${plan.price}</div>
+                    <div class="plan-price-sub">Per 1 ob Update<br>${
+                      plan.updatePrice
+                    }</div>
+                    <ul class="plan-features">
+                        ${plan.shortFeatures
+                          .map((f) => `<li>${f}</li>`)
+                          .join("")}
+                    </ul>
+                    <button class="choose-btn" onclick="showDetail('${key}')">Choose Plan</button>
+                `;
+          plansGrid.appendChild(planCard);
+        });
+      }
+
+      // SHOW DETAIL PAGE
+      function showDetail(planKey) {
+        selectedPlanKey = planKey;
+        const plan = plansData[planKey];
+        const detailPlaceholder = document.getElementById("detailPlaceholder");
+
+        detailPlaceholder.innerHTML = `
+                <div class="detail-title">
+                    <h1>${plan.name}</h1>
+                </div>
+                <div class="detail-price">${plan.price}</div>
+                <div class="detail-description">${plan.description}</div>
+                
+                <div class="detail-features">
+                    <h2>✨ Full Features</h2>
+                    <div class="features-list">
+                        ${plan.fullFeatures
+                          .map(
+                            (f) => `
+                            <div class="feature-item">
+                                <h3>${f.title}</h3>
+                                <p>${f.desc}</p>
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+                </div>
+                
+                <button class="detail-buy-btn" onclick="goToContact('${planKey}')">💳 BUY NOW - ${
+          plan.price
+        }</button>
+            `;
+
+        panelPageEl.classList.remove("visible");
+        setTimeout(() => {
+          detailPageEl.classList.add("visible");
+        }, 50);
+      }
+
+      // GO TO CONTACT PAGE
+      function goToContact(planKey) {
+        selectedPlanKey = planKey;
+        detailPageEl.classList.remove("visible");
+        setTimeout(() => {
+          portalPageEl.classList.add("visible");
+        }, 50);
+      }
+
+      // GO TO PAYMENT PAGE
+      function goToPayment() {
+        const plan = plansData[selectedPlanKey];
+        document.getElementById("paymentPlanName").textContent = plan.name;
+        document.getElementById("paymentPlanPrice").textContent = plan.price;
+
+        portalPageEl.classList.remove("visible");
+        setTimeout(() => {
+          paymentPageEl.classList.add("visible");
+          renderPaymentMethods();
+        }, 50);
+      }
+
+      // RENDER PAYMENT METHODS
+      function renderPaymentMethods() {
+        const grid = document.getElementById("paymentMethodsGrid");
+        grid.innerHTML = "";
+
+        paymentMethods.forEach((method) => {
+          const methodCard = document.createElement("div");
+          methodCard.className = "payment-method";
+          methodCard.innerHTML = `
+                    <i class="${method.icon}"></i>
+                    <h3>${method.name}</h3>
+                    <p>${method.info}</p>
+                `;
+          methodCard.addEventListener("click", () => {
+            alert(`Processing payment via ${method.name}!\n\n${method.info}`);
+          });
+          grid.appendChild(methodCard);
+        });
+      }
+
+      // BACK BUTTONS
+      document.getElementById("backBtn").addEventListener("click", function () {
+        portalPageEl.classList.remove("visible");
+        setTimeout(() => {
+          detailPageEl.classList.add("visible");
+        }, 50);
+      });
+
+      document
+        .getElementById("detailBackBtn")
+        .addEventListener("click", function () {
+          detailPageEl.classList.remove("visible");
+          setTimeout(() => {
+            panelPageEl.classList.add("visible");
+          }, 50);
+        });
+
+      document
+        .getElementById("paymentBackBtn")
+        .addEventListener("click", function () {
+          paymentPageEl.classList.remove("visible");
+          setTimeout(() => {
+            portalPageEl.classList.add("visible");
+          }, 50);
+        });
+
+      // BLACKHOLE ANIMATION
+      function blackhole(element) {
+        const container = document.querySelector(element);
+        const h = container.offsetHeight;
+        const w = container.offsetWidth;
+        const cw = w;
+        const ch = h;
+        const maxorbit = 255;
+        const centery = ch / 2;
+        const centerx = cw / 2;
+
+        const startTime = new Date().getTime();
+        let currentTime = 0;
+
+        const stars = [];
+        let collapse = false;
+        let expanse = false;
+        let returning = false;
+
+        const canvas = document.createElement("canvas");
+        canvas.width = cw;
+        canvas.height = ch;
+        container.appendChild(canvas);
+        const context = canvas.getContext("2d");
+
+        context.globalCompositeOperation = "multiply";
+
+        function setDPI(canvas, dpi) {
+          if (!canvas.style.width) canvas.style.width = canvas.width + "px";
+          if (!canvas.style.height) canvas.style.height = canvas.height + "px";
+
+          const scaleFactor = dpi / 96;
+          canvas.width = Math.ceil(canvas.width * scaleFactor);
+          canvas.height = Math.ceil(canvas.height * scaleFactor);
+          const ctx = canvas.getContext("2d");
+          ctx.scale(scaleFactor, scaleFactor);
+        }
+
+        function rotate(cx, cy, x, y, angle) {
+          const radians = angle;
+          const cos = Math.cos(radians);
+          const sin = Math.sin(radians);
+          const nx = cos * (x - cx) + sin * (y - cy) + cx;
+          const ny = cos * (y - cy) - sin * (x - cx) + cy;
+          return [nx, ny];
+        }
+
+        setDPI(canvas, 192);
+
+        class Star {
+          constructor() {
+            const rands = [];
+            rands.push(Math.random() * (maxorbit / 2) + 1);
+            rands.push(Math.random() * (maxorbit / 2) + maxorbit);
+
+            this.orbital = rands.reduce((p, c) => p + c, 0) / rands.length;
+            this.x = centerx;
+            this.y = centery + this.orbital;
+            this.yOrigin = centery + this.orbital;
+
+            this.speed =
+              ((Math.floor(Math.random() * 2.5) + 1.5) * Math.PI) / 180;
+            this.rotation = 0;
+            this.startRotation =
+              ((Math.floor(Math.random() * 360) + 1) * Math.PI) / 180;
+
+            this.id = stars.length;
+
+            this.collapseBonus = this.orbital - maxorbit * 0.7;
+            if (this.collapseBonus < 0) {
+              this.collapseBonus = 0;
+            }
+
+            this.color = "rgba(255,255,255," + (1 - this.orbital / 255) + ")";
+
+            this.hoverPos = centery + maxorbit / 2 + this.collapseBonus;
+            this.expansePos =
+              centery +
+              (this.id % 100) * -10 +
+              (Math.floor(Math.random() * 20) + 1);
+
+            this.prevR = this.startRotation;
+            this.prevX = this.x;
+            this.prevY = this.y;
+
+            this.originalY = this.yOrigin;
+
+            stars.push(this);
+          }
+
+          draw() {
+            if (!expanse && !returning) {
+              this.rotation = this.startRotation + currentTime * this.speed;
+              if (!collapse) {
+                if (this.y > this.yOrigin) {
+                  this.y -= 2.5;
+                }
+                if (this.y < this.yOrigin - 4) {
+                  this.y += (this.yOrigin - this.y) / 10;
+                }
+              } else {
+                this.trail = 1;
+                if (this.y > this.hoverPos) {
+                  this.y -= (this.hoverPos - this.y) / -5;
+                }
+                if (this.y < this.hoverPos - 4) {
+                  this.y += 2.5;
+                }
+              }
+            } else if (expanse && !returning) {
+              this.rotation =
+                this.startRotation + currentTime * (this.speed / 2);
+              if (this.y > this.expansePos) {
+                this.y -= Math.floor(this.expansePos - this.y) / -80;
+              }
+            } else if (returning) {
+              this.rotation = this.startRotation + currentTime * this.speed;
+              if (Math.abs(this.y - this.originalY) > 2) {
+                this.y += (this.originalY - this.y) / 50;
+              } else {
+                this.y = this.originalY;
+                this.yOrigin = this.originalY;
+              }
+            }
+
+            context.save();
+            context.fillStyle = this.color;
+            context.strokeStyle = this.color;
+            context.beginPath();
+            const oldPos = rotate(
+              centerx,
+              centery,
+              this.prevX,
+              this.prevY,
+              -this.prevR
+            );
+            context.moveTo(oldPos[0], oldPos[1]);
+            context.translate(centerx, centery);
+            context.rotate(this.rotation);
+            context.translate(-centerx, -centery);
+            context.lineTo(this.x, this.y);
+            context.stroke();
+            context.restore();
+
+            this.prevR = this.rotation;
+            this.prevX = this.x;
+            this.prevY = this.y;
+          }
+        }
+
+        function loop() {
+          const now = new Date().getTime();
+          currentTime = (now - startTime) / 50;
+
+          context.fillStyle = "rgba(25,25,25,0.2)";
+          context.fillRect(0, 0, cw, ch);
+
+          for (let i = 0; i < stars.length; i++) {
+            if (stars[i] !== undefined) {
+              stars[i].draw();
+            }
+          }
+
+          requestAnimationFrame(loop);
+        }
+
+        function init() {
+          context.fillStyle = "rgba(25,25,25,1)";
+          context.fillRect(0, 0, cw, ch);
+          for (let i = 0; i < 2500; i++) {
+            new Star();
+          }
+          loop();
+        }
+
+        init();
+      }
+
+      // INIT
+      document.addEventListener("DOMContentLoaded", () => {
+        blackhole("#blackhole");
+        renderPlans();
+      });
+    </script>
+
+    <script>
+      // ==== Copy protection (basic) ====
+      // Right click off
+      document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+      });
+
+      // Disable common copy shortcuts
+      document.addEventListener("keydown", function (e) {
+        // Ctrl/⌘ + C, X, S, U, P, A
+        if (
+          (e.ctrlKey || e.metaKey) &&
+          ["c", "x", "s", "u", "p", "a"].includes(e.key.toLowerCase())
+        ) {
+          e.preventDefault();
+        }
+      });
+
+      // Mouse drag diye selection off (extra)
+      document.addEventListener("mousedown", function (e) {
+        if (e.detail > 1) {
+          e.preventDefault();
+        }
+      });
+
+      // ==== Enter press -> welcome sound ====
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          var audio = document.getElementById("welcome-sound");
+          if (audio) {
+            audio.currentTime = 0;
+            audio.play().catch(function () {});
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
